@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zero-Day Detection Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        select, button {
+            padding: 10px;
+            margin-right: 10px;
+            font-size: 16px;
+        }
+
+        .status {
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .anomaly {
+            color: red;
+            font-weight: bold;
+        }
+
+        .status-container {
+            margin-top: 20px;
+        }
+
+        .rating {
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        .rating span {
+            color: orange;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Zero-Day Detection</h1>
+    </header>
+
+    <main>
+        <div class="container">
+            <!-- Dropdown for selecting ML models -->
+            <div>
+                <label for="mlModels">Choose ML Model: </label>
+                <select id="mlModels">
+                    <option value="model1">Model 1</option>
+                    <option value="model2">Model 2</option>
+                    <option value="model3">Model 3</option>
+                    <option value="model4">Model 4</option>
+                </select>
+            </div>
+
+            <!-- Start Capturing Button -->
+            <button id="captureBtn" onclick="toggleCapture()">Start Capturing</button>
+        </div>
+
+        <div class="status-container">
+            <p id="captureStatus" class="status">Enable capture mode to start capturing and analyzing packets.</p>
+            <p id="anomalyStatus" class="status"></p>
+            <div id="rating" class="rating"></div>
+        </div>
+    </main>
+
+    <script>
+        let isCapturing = false;
+        let captureStatus = document.getElementById('captureStatus');
+        let anomalyStatus = document.getElementById('anomalyStatus');
+        let rating = document.getElementById('rating');
+        let captureBtn = document.getElementById('captureBtn');
+
+        // Toggle capturing state
+        function toggleCapture() {
+            isCapturing = !isCapturing;
+
+            if (isCapturing) {
+                captureStatus.innerHTML = "Model is live and capturing.";
+                captureBtn.textContent = "Stop Capturing";
+                checkForAnomaly(); // Simulate anomaly check while capturing
+            } else {
+                captureStatus.innerHTML = "Enable capture mode to start capturing and analyzing packets.";
+                captureBtn.textContent = "Start Capturing";
+                anomalyStatus.innerHTML = '';
+                rating.innerHTML = '';
+            }
+        }
+
+        // Simulate anomaly detection during capturing
+        function checkForAnomaly() {
+            if (isCapturing) {
+                // Simulating anomaly detection with a random number (for demo)
+                let anomalyDetected = Math.random() < 0.3; // 30% chance of anomaly detection
+                if (anomalyDetected) {
+                    anomalyStatus.innerHTML = "Anomaly detected! Possible Zero-Day Attack.";
+                    rating.innerHTML = "Risk Rating: <span>High</span>";
+                } else {
+                    setTimeout(checkForAnomaly, 2000); // Check again in 2 seconds if no anomaly
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
